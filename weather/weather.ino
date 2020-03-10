@@ -1,5 +1,9 @@
 #include <Servo.h>
 
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(14, 15, 16, 17, 18, 19);
+
 const int WEATHER_SUN = 90;
 const int WEATHER_SNOW = 180;
 const int WEATHER_RAIN = 0;
@@ -29,11 +33,24 @@ void setup() {
   pinMode (SUN_BUTTON, OUTPUT);
   pinMode(WIND_BUTTON, OUTPUT);
   Serial.begin(9600);
+
+  lcd.begin(16, 2);
+  delay (1000);
+  
   current_day = 0;
   weatherChange(weather_forecast[current_day]);
+
+   lcd.print("hello, world!");
 }
 
 void loop() {
+
+     lcd.clear();
+     lcd.setCursor(4, 0);
+     lcd.print("THANK YOU");
+     lcd.setCursor(0, 1);
+     lcd.print("HAVE A GOOD DAY!");
+  
    if ((digitalRead(FORWARD_BUTTON)==HIGH) && (current_day < (sizeof(weather_forecast)/sizeof(weather_forecast[0])-1)) && (count>5) ){
     count = 0;
     current_day = current_day + 1;
@@ -48,6 +65,8 @@ void loop() {
 
    count =count + 1;
    delay(200);
+
+
 }
 
 void send(String message){

@@ -1,7 +1,7 @@
 import serial
 import pygame
 
-arduinoData = serial.Serial('/dev/ttyACM2')
+arduinoData = serial.Serial('/dev/ttyACM0')
 # pygame.mixer.pre_init(220500, 16, 2, 4096)
 pygame.mixer.init()
 birds = pygame.mixer.Sound("birds.ogg")
