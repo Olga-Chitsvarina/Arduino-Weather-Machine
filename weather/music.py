@@ -1,17 +1,21 @@
 import serial
 import pygame
 
+# Start listen for arduino
 arduinoData = serial.Serial('/dev/ttyACM0')
-# pygame.mixer.pre_init(220500, 16, 2, 4096)
 pygame.mixer.init()
+
+# Load music
 birds = pygame.mixer.Sound("birds.ogg")
 wind = pygame.mixer.Sound("winter.ogg")
 rain = pygame.mixer.Sound("rain.ogg")
 
+# State of songs
 started1 = False
 started2 = False
 started3 = False
 
+# Read messages from Arduino, turn on/off songs depending on the state
 while True:
     cc=str(arduinoData.readline())
     print(cc)
@@ -56,3 +60,14 @@ while True:
     if("StopRain" in cc[2:][:-5] and started3):
         started3= False
         rain.stop()
+
+# REFERENCES:
+# 1) Code from first trial with Python Script for Assignment 2:
+# https://github.com/Olga-Chitsvarina/Arduino-Musical-Instrument/commit/9d6f0b9ff605cd5f3fa7680977aacec84ca2638b
+# 2) Pygame library:
+# https://github.com/pygame/pygame/blob/bd131148444cd6e946aec986c93f9afc44728f85/test/sndarray_test.py
+# 3) Python Serial Library:
+# https://pyserial.readthedocs.io/en/latest/shortintro.html
+# 4) Sound effects were downloaded from this website:
+# https://bigsoundbank.com/detail-0595-wind.html
+#
