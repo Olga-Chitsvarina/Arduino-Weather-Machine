@@ -12,10 +12,10 @@ const int CLOTHING_SNOW = 180;
 const int CLOTHING_RAIN = 0;
 
 int WEATHER_FORECAST [] = {WEATHER_SUN, WEATHER_RAIN, WEATHER_SNOW, WEATHER_SUN, WEATHER_SUN, WEATHER_SNOW, WEATHER_RAIN};
-String day [] = {"March 12th (Thu)", "March 13th (Fri)", "March 14th (Sat)", "March 15th (Sun)", "March 16th (Mon)", "March 17th (Tue)", "March 18th (Wed)"};
-String degree_values [] = {"+12", "+5", "-7", "+10", "-10", "-12", "0"};
+String DAY [] = {"March 12th (Thu)", "March 13th (Fri)", "March 14th (Sat)", "March 15th (Sun)", "March 16th (Mon)", "March 17th (Tue)", "March 18th (Wed)"};
+String DEGREE_VALUES [] = {"+12", "+5", "-7", "+10", "-10", "-12", "0"};
 
-int current_day = 0;
+int CURRENT_DAY = 0;
 
 Servo servo_clothing; 
 Servo servo_weather;
@@ -39,8 +39,8 @@ void setup() {
   lcd.begin(16, 2);
   delay (1000);
   
-  current_day = 0;
-  weatherChange(WEATHER_FORECAST[current_day]);
+  CURRENT_DAY = 0;
+  weatherChange(WEATHER_FORECAST[CURRENT_DAY]);
 
   lcd.print("hello");
 }
@@ -49,41 +49,43 @@ void setup() {
 void loop() {
    show_day_and_weather_on_lcd();
    
-   if ((digitalRead(FORWARD_BUTTON)==HIGH) && (current_day < (sizeof(WEATHER_FORECAST)/sizeof(WEATHER_FORECAST[0])-1)) && (count>5) ){
+   /* Change to the next DAY on click forward */
+   if ((digitalRead(FORWARD_BUTTON)==HIGH) && (CURRENT_DAY < (sizeof(WEATHER_FORECAST)/sizeof(WEATHER_FORECAST[0])-1)) && (count>5) ){
     count = 0;
-    current_day = current_day + 1;
-    weatherChange(WEATHER_FORECAST[current_day]);
+    CURRENT_DAY = CURRENT_DAY + 1;
+    weatherChange(WEATHER_FORECAST[CURRENT_DAY]);
    }
-    
-   if ((digitalRead(BACKWARD_BUTTON)==HIGH) && current_day > 0 && (count>5)){
+
+   /* Change to the previous DAY on click backward */
+   if ((digitalRead(BACKWARD_BUTTON)==HIGH) && CURRENT_DAY > 0 && (count>5)){
     count = 0;
-    current_day = current_day -1;
-    weatherChange(WEATHER_FORECAST[current_day]);
+    CURRENT_DAY = CURRENT_DAY -1;
+    weatherChange(WEATHER_FORECAST[CURRENT_DAY]);
    }
 
    count =count + 1;
    delay(200);
 }
 
-/* Shows day, weather information on display */
+/* Shows day, weather information on display (Reference 1)*/
 void show_day_and_weather_on_lcd(){
    lcd.clear();
    lcd.setCursor(0, 0);
-   lcd.print(day[current_day]);
+   lcd.print(DAY[CURRENT_DAY]);
    lcd.setCursor(0, 1);
-   lcd.print(degree_values[current_day]);
+   lcd.print(DEGREE_VALUES[CURRENT_DAY]);
    lcd.setCursor(3, 1);
    lcd.print(char(223));
    lcd.setCursor(4, 1);
    lcd.print("C");
    lcd.setCursor(6, 1);
-   lcd.print("Day: ");
+   lcd.print("DAY: ");
    lcd.setCursor(10, 1);
-   lcd.print(current_day+1);
+   lcd.print(CURRENT_DAY+1);
 }
 
 
-/* Sends request to update song */
+/* Sends request to update song (Reference 2)*/
 void send(String message){
   Serial.println(message);
   Serial.print("\n");
@@ -92,13 +94,13 @@ void send(String message){
 }
 
 
-/* Changes clothing */
+/* Changes clothing (Refernce 3)*/
 void changeClothing(int clothing){
-  //servo_clothing.write(clothing);
+  servo_clothing.write(clothing);
 }
 
 
-/* Updates weather condition settings based on parameter weather */
+/* Updates weather condition settings based on parameter weather (References 3, 4) */
 void weatherChange(int weather){
   /* Resets settings from previous state: */
   digitalWrite(SUN_BUTTON, LOW);
@@ -106,9 +108,9 @@ void weatherChange(int weather){
   send("StopBirds");
   send("StopWind");
   send("StopRain");
-
+  
   /* Change weather, clothing and song:*/
-  //servo_weather.write(weather);
+  servo_weather.write(weather);
   switch (weather) {
   case WEATHER_SUN:
     changeClothing(CLOTHING_SUN);
@@ -128,3 +130,14 @@ void weatherChange(int weather){
     break;
   }
 }
+
+/* REFERENCES: 
+* 1) Code for Assignment 1: 
+* https://github.com/Olga-Chitsvarina/Arduino/blob/master/lcd_display/lcd_display.ino
+* 2) Code from first trial with Python Script for Assignment 2: 
+* https://github.com/Olga-Chitsvarina/Arduino-Musical-Instrument/commit/9d6f0b9ff605cd5f3fa7680977aacec84ca2638b
+* 3) Build in Arduino IDE examples for 
+* Servo (Knob, Sweep), Basics (Blink)
+* 4) This video that explains basics of working with transistors: 
+* https://www.youtube.com/watch?v=gEMBXxWKUS0
+*/
