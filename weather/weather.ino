@@ -13,7 +13,7 @@ const int CLOTHING_RAIN = 0;
 
 int WEATHER_FORECAST [] = {WEATHER_SUN, WEATHER_RAIN, WEATHER_SNOW, WEATHER_SUN, WEATHER_SUN, WEATHER_SNOW, WEATHER_RAIN};
 String DAY [] = {"March 12th (Thu)", "March 13th (Fri)", "March 14th (Sat)", "March 15th (Sun)", "March 16th (Mon)", "March 17th (Tue)", "March 18th (Wed)"};
-String DEGREE_VALUES [] = {"+12", "+5", "-7", "+10", "-10", "-12", "0"};
+String DEGREE_VALUES [] = {"+12", "+5", "-7", "+10", "+8", "-12", "0"};
 
 int CURRENT_DAY = 0;
 
