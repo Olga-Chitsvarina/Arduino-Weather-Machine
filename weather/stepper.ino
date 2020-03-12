@@ -42,3 +42,14 @@ void loop() {
       };
 
   }
+
+/* REFERENCES 
+1) Cheap Stepper 
+https://github.com/tyhenry/CheapStepper
+
+2) Stepper Speed Control
+https://www.arduino.cc/en/tutorial/stepperSpeedControl
+
+3) Stepper Motors with Arduino. 
+https://www.youtube.com/watch?time_continue=1033&v=0qwrnUeSpYQ&feature=emb_logo
+*/
