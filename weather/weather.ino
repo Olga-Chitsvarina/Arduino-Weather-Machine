@@ -40,7 +40,7 @@ void setup() {
 
   /* LCD won't start properly if there is no delay (delay is a must) */
   lcd.begin(16, 2);
-  delay (1000);
+  delay(2000);
 
   /* Set weather for current day */
   CURRENT_DAY = 0;
